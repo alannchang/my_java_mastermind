@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameLoop {
-    int[] secretCode = new int[4];
+    String secretCode = "";
     Random rand = new Random();
     int round = 0;
 
@@ -12,32 +12,31 @@ public class GameLoop {
         if (userProvidedSecret == null) {
             generateSecretCode();
         } else {
-            for (int i = 0; i < secretCode.length; i++){
-                secretCode[i] = Character.getNumericValue(userProvidedSecret.charAt(i));
-            }
+            secretCode = userProvidedSecret;
         }
         Scanner scn = new Scanner(System.in);
 
         while(round < 10){
             System.out.printf("---\nRound %d\n>", round);
             String playerGuess = scn.nextLine();
+            if (playerGuess.equals(secretCode)) {
+                break;
+            }
             System.out.println("Well placed pieces: ");
             System.out.println("Misplaced pieces: ");
             round++;
         }
         if (round > 9) {
-            System.out.println("The secret code is ");
-            for (int j : secretCode) {
-                System.out.print(j);
-            }
-            System.out.print("\nYou lose! Try again!\n");
+            System.out.printf("The secret code is %s\n", secretCode);
+            System.out.println("You lose! Try again!");
         }
 
     }
 
     void generateSecretCode() {
-        for (int i = 0; i < secretCode.length; i++) {
-            secretCode[i] = rand.nextInt(9);
+        for (int i = 0; i < 4; i++) {
+            int randomInt = rand.nextInt(9);
+            secretCode += String.valueOf(randomInt);
         }
     }
 
