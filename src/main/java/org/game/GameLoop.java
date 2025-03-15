@@ -3,6 +3,8 @@ package org.game;
 import java.util.Random;
 import java.util.Scanner;
 
+import static org.game.CodeValidator.isValidCode;
+
 public class GameLoop {
     String secretCode = "";
     Random rand = new Random();
@@ -16,11 +18,16 @@ public class GameLoop {
         } else {
             secretCode = userProvidedSecret;
         }
+
         Scanner scn = new Scanner(System.in);
 
         while(round < 10){
             System.out.printf("---\nRound %d\n>", round);
             String playerGuess = scn.nextLine();
+            if (!isValidCode(playerGuess)) {
+                System.out.println("Wrong input! Try again!");
+                continue;
+            }
             if (playerGuess.equals(secretCode)) {
                 break;
             }
