@@ -7,6 +7,8 @@ public class GameLoop {
     String secretCode = "";
     Random rand = new Random();
     int round = 0;
+    int wellPlacedPieces;
+    int misplacedPieces;
 
     public GameLoop(String userProvidedSecret){
         if (userProvidedSecret == null) {
@@ -22,14 +24,19 @@ public class GameLoop {
             if (playerGuess.equals(secretCode)) {
                 break;
             }
-            System.out.println("Well placed pieces: ");
-            System.out.println("Misplaced pieces: ");
+            System.out.printf("Well placed pieces: %d\n", wellPlacedPieces);
+            System.out.printf("Misplaced pieces: %d\n", misplacedPieces);
             round++;
         }
+
         if (round > 9) {
             System.out.printf("The secret code is %s\n", secretCode);
             System.out.println("You lose! Try again!");
+        } else {
+            System.out.println("Congrats! You did it!");
         }
+
+
 
     }
 
