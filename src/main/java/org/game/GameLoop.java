@@ -8,22 +8,27 @@ import static org.game.CodeValidator.isValidCode;
 public class GameLoop {
     String secretCode = "";
     Random rand = new Random();
-    int round = 0;
+    int roundNumber = 0;
+    int maxAttempts = 10;
     int wellPlacedPieces;
     int misplacedPieces;
 
-    public GameLoop(String userProvidedSecret){
+    public GameLoop(String userProvidedSecret, int userDefinedAttempts){
         if (userProvidedSecret == null) {
             generateSecretCode();
         } else {
             secretCode = userProvidedSecret;
         }
 
-        Scanner scn = new Scanner(System.in);
+        if (userDefinedAttempts != 0) {
+            maxAttempts = userDefinedAttempts;
+        }
 
-        while(round < 10){
-            System.out.printf("---\nRound %d\n>", round);
-            String playerGuess = scn.nextLine();
+        Scanner scan = new Scanner(System.in);
+
+        while(roundNumber < maxAttempts){
+            System.out.printf("---\nRound %d\n>", roundNumber);
+            String playerGuess = scan.nextLine();
             if (!isValidCode(playerGuess)) {
                 System.out.println("Wrong input! Try again!");
                 continue;
@@ -33,23 +38,20 @@ public class GameLoop {
             }
             System.out.printf("Well placed pieces: %d\n", wellPlacedPieces);
             System.out.printf("Misplaced pieces: %d\n", misplacedPieces);
-            round++;
+            roundNumber++;
         }
 
-        if (round > 9) {
+        if (roundNumber >= maxAttempts) {
             System.out.printf("The secret code is %s\n", secretCode);
             System.out.println("You lose! Try again!");
         } else {
             System.out.println("Congrats! You did it!");
         }
-
-
-
     }
 
     void generateSecretCode() {
         for (int i = 0; i < 4; i++) {
-            int randomInt = rand.nextInt(9);
+            int randomInt = rand.nextInt(8);
             secretCode += String.valueOf(randomInt);
         }
     }
