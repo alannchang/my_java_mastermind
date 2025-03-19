@@ -4,16 +4,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static org.game.CodeValidator.isValidCode;
+import static org.game.CodeValidator.checkMatches;
 
 public class GameLoop {
     String secretCode = "";
     Random rand = new Random();
     int roundNumber = 0;
     int maxAttempts = 10;
-    int wellPlacedPieces;
-    int misplacedPieces;
 
-    public GameLoop(String userProvidedSecret, int userDefinedAttempts){
+    private void processUserParameters(String userProvidedSecret, int userDefinedAttempts) {
         if (userProvidedSecret == null) {
             generateSecretCode();
         } else {
@@ -23,7 +22,10 @@ public class GameLoop {
         if (userDefinedAttempts != 0) {
             maxAttempts = userDefinedAttempts;
         }
+    }
 
+    public GameLoop(String userProvidedSecret, int userDefinedAttempts){
+        processUserParameters(userProvidedSecret, userDefinedAttempts);
         Scanner scan = new Scanner(System.in);
 
         while(roundNumber < maxAttempts){
@@ -36,11 +38,18 @@ public class GameLoop {
             if (playerGuess.equals(secretCode)) {
                 break;
             }
+            int[] placement = checkMatches(secretCode, playerGuess);
+            int wellPlacedPieces = placement[0];
+            int misplacedPieces = placement[1];
             System.out.printf("Well placed pieces: %d\n", wellPlacedPieces);
             System.out.printf("Misplaced pieces: %d\n", misplacedPieces);
             roundNumber++;
         }
 
+        endGame();
+    }
+
+    void endGame() {
         if (roundNumber >= maxAttempts) {
             System.out.printf("The secret code is %s\n", secretCode);
             System.out.println("You lose! Try again!");
