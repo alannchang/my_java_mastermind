@@ -8,6 +8,7 @@ import static org.game.CodeValidator.checkMatches;
 
 public class GameLoop {
     String secretCode = "";
+    String playerGuess = "";
     Random rand = new Random();
     int roundNumber = 0;
     int maxAttempts = 10;
@@ -26,11 +27,11 @@ public class GameLoop {
 
     public GameLoop(String userProvidedSecret, int userDefinedAttempts){
         processUserParameters(userProvidedSecret, userDefinedAttempts);
-        Scanner scan = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         while(roundNumber < maxAttempts){
             System.out.printf("---\nRound %d\n>", roundNumber);
-            String playerGuess = scan.nextLine();
+            playerGuess = scanner.nextLine();
             if (!isValidCode(playerGuess)) {
                 System.out.println("Wrong input! Try again!");
                 continue;

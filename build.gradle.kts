@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
 }
 
 group = "org.game"
@@ -13,6 +14,10 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("commons-cli:commons-cli:1.5.0")
+}
+
+application {
+    mainClass.set("org.game.Main")
 }
 
 tasks.test {
